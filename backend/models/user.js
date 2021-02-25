@@ -1,8 +1,8 @@
 const mongoose=require('mongoose')
 
 const UserSchema=mongoose.Schema({
-   id:{
-      type: String,
+   _id:{
+      type: mongoose.Schema.Types.ObjectId,
       required: true
    },
    name:{
@@ -11,7 +11,8 @@ const UserSchema=mongoose.Schema({
    },
    email:{
       type: String,
-      required: true
+      required: true,
+      match: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
    },
    password: {
       type: String,
