@@ -48,12 +48,12 @@ router.get('/', async(req, res)=>{
 })
 
 router.get('/login/:id', async (req, res)=>{
-   User.find({_id: req.params.id}).exec().then(user=>{
-      if(user.length>0)
-         return res.status(200).json(user)
-      else
-         return res.status(400).json({message: err})
-   })
+   try{
+      const user=await User.findById(req.params.id)
+      return res.status(200).json(user)
+   }catch(err){
+      return res.status(400).json({message: err})
+   }
 })
 
 module.exports=router
