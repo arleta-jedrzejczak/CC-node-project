@@ -7,17 +7,18 @@ const bcrypt=require('bcrypt')
 router.post('/register', (req, res)=>{
    User.find({email: req.body.email}).exec().then(users=>{
       if(users.length>0)
-         res.status(409).json({message: 'email already exists'})
+         return res.status(409).json({message: 'email already exists'})
    })
 
    User.find({name: req.body.name}).exec().then(users=>{
       if(users.length>0)
-         res.status(409).json({message: 'such name already exists'})
+         return res.status(409).json({message: 'such name already exists'})
    })
+
 
    bcrypt.hash(req.body.password, 10, (err, hash)=>{
       if(err)
-         res.status(500).json({error: err})
+         return res.status(500).json({error: err})
       else{
          const user=new User({
             _id: new mongoose.Types.ObjectId(),
@@ -29,10 +30,10 @@ router.post('/register', (req, res)=>{
          })
 
          user.save().then(result=>{
-            res.status(200).json(user)
+            return res.status(200).json(user)
          }).catch(err=>{
             console.log(err);
-            res.status(500).json({"error": err})
+            return res.status(500).json({"error": err})
          })
       }
    })
@@ -41,9 +42,9 @@ router.post('/register', (req, res)=>{
 router.get('/', async(req, res)=>{
    try{
       const users=await User.find()
-      res.status(200).json(users)
+      return res.status(200).json(users)
    }catch(err){
-      res.status(400).json({message: err})
+      return res.status(400).json({message: err})
    }
 })
 
