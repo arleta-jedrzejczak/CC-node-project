@@ -2,7 +2,7 @@ const app=require("../server");
 const supertest=require("supertest");
 const request=supertest(app);
 const mongoose=require('mongoose')
-const User=require('../models/user')
+const User=require('../build/models/user')
 
 describe('testing users', ()=>{
    beforeAll(async ()=>{
@@ -33,36 +33,36 @@ describe('testing users', ()=>{
    })
 
    it('getting valid user', async done=>{
-      const resp=await request.get('/users/login/60376b6677b8b8478473e415')
+      const resp=await request.get('/users/login/6036f5fc2cea1e39884b2960')
 
-      // expect(resp.body).toBeDefined()
-
+      expect(resp.body).toBeDefined()
       done()
    })
    
    it('getting invalid user', async done=>{
       const resp=await request.get('/users/login/60376b73e415')
 
-      expect(resp.status).toBe(200)
-
+      expect(resp.status).toBe(400)
       done()
    })
 
-   // it('creating a new user', async done=>{
-   //    const resp=await request.post('/users/register').send({
-   //       name: "jane01",
-   //       email: "jane@mail.com",
-   //       password: "Jane123"
-   //    })
+   it('creating a new user', async done=>{
+      const resp=await request.post('/users/register').send({
+         name: "new user",
+         email: "user@mail.com",
+         password: "somePassword@#!"
+      })
 
-   //    const user=await User.findOne({name: 'jane01'})
+      const user=await User.findOne({name: 'new user'})
 
-   //    expect(user.id).toBeTruthy()
+      expect(user.id).toBeTruthy()
 
-   //    done()  
-   // })
+      await User.findByIdAndDelete(user.id)
+      done()  
+   })
 
    afterAll(async () => {
+      
       await connection.close();
       await db.close();
     });
