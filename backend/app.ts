@@ -1,6 +1,6 @@
-const express = require("express");
+import express from 'express';
+import mongoose from 'mongoose';
 const app = express();
-const mongoose = require("mongoose");
 const parser = require("body-parser");
 require("dotenv/config");
 

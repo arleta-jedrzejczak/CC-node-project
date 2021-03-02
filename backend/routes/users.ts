@@ -1,10 +1,10 @@
-const express = require("express");
-const mongoose = require("mongoose");
+import express, {Response, Request} from 'express';
+import mongoose from 'mongoose';
 const router = express.Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
-router.post("/register", (req, res) => {
+router.post("/register", (req: Request, res: Response) => {
   User.find({ email: req.body.email })
     .exec()
     .then((users) => {
