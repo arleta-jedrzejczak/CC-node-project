@@ -2,10 +2,7 @@ import {Request, Response, NextFunction} from 'express'
 const {User}=require('../models/user')
 
 interface Post{
-   date: string,
-   text: string,
-   id: string,
-   image: string
+   id: string
 }
 
 exports.addPost=(req: Request, res: Response, next: NextFunction)=>{
