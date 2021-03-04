@@ -1,4 +1,14 @@
-import mongoose from 'mongoose';
+import mongoose, {Document} from 'mongoose';
+
+export interface UserInterface extends Document{
+   _id: string;
+   name: string;
+   email: string;
+   password: string;
+   __v: number;
+   posts: [];
+   favourites: [];
+}
 
 const UserSchema = new mongoose.Schema({
   _id: {
@@ -28,4 +38,4 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Users", UserSchema);
+module.exports = mongoose.model<UserInterface>("Users", UserSchema);

@@ -4,16 +4,6 @@ const router = express.Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
-interface UserInterface{
-   _id: string;
-   name: string;
-   email: string;
-   password: string;
-   __v: number;
-   posts: [];
-   favourites: [];
-}
-
 router.post("/register", (req: Request, res: Response) => {
    User.find({email: req.body.email}).exec().then(users => {
          if (users.length > 0) 
