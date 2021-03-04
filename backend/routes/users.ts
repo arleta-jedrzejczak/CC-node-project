@@ -1,7 +1,8 @@
 import express, {Response, Request} from "express";
 import mongoose from "mongoose";
 const router = express.Router();
-const User = require("../models/user");
+const {User} = require("../models/user");
+const UserControler=require('../controllers/user')
 const bcrypt = require("bcrypt");
 
 router.post("/register", (req: Request, res: Response) => {
@@ -54,11 +55,21 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.get("/login/:id", async (req: Request, res: Response) => {
    User.find({_id: req.params.id}).exec().then(users => {
-         if (users.length > 0)  
-            return res.status(200).json(users[0]);
-         else 
-            return res.status(400).json({message: "no such user"});
-      });
-});
+      if (users.length > 0)  
+         return res.status(200).json(users[0]);
+      else 
+         return res.status(400).json({message: "no such user"});
+   });
+})
+
+router.patch("/edit/:id", async(req: Request, res: Response)=>{
+   await User.findOneAndUpdate({_id: req.params.id}, req.body, {returnOriginal: true}).exec().then(user=>{
+         res.status(200).json({message: 'updated'})
+      },err=>{
+         res.status(404).send({message: err})
+   })
+})
+
+router.patch("/addPost/:id", UserControler.addPost)
 
 module.exports = router;

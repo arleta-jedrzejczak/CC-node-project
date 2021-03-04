@@ -10,32 +10,53 @@ export interface UserInterface extends Document{
    favourites: [];
 }
 
+const PostSchema=new mongoose.Schema({
+   date:{
+      type: String,
+      required: true
+   },
+   text:{
+      type: String,
+      required: true
+   },
+   id:{
+      type: String,
+      required: true      
+   },
+   image:{
+      type: String,
+      required: true
+   }
+})
+
 const UserSchema = new mongoose.Schema({
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    match: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-  },
-  password: {
-    type: String,
-    require: true,
-  },
-  favourites: {
-    type: Array,
-    default: [],
-  },
-  posts: {
-    type: Array,
-    default: [],
-  },
+   _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+   },
+   name: {
+      type: String,
+      required: true,
+   },
+   email: {
+      type: String,
+      required: true,
+      match: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+   },
+   password: {
+      type: String,
+      require: true,
+   },
+   favourites: {
+      type: Array,
+      default: [],
+   },
+   posts: {
+      type: [PostSchema],
+      default: []
+   }
 });
 
-module.exports = mongoose.model<UserInterface>("Users", UserSchema);
+const User=mongoose.model<UserInterface>("Users", UserSchema);
+
+module.exports = {User}

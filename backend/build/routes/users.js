@@ -42,7 +42,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var mongoose_1 = __importDefault(require("mongoose"));
 var router = express_1.default.Router();
-var User = require("../models/user");
+var User = require("../models/user").User;
+var UserControler = require('../controllers/user');
 var bcrypt = require("bcrypt");
 router.post("/register", function (req, res) {
     User.find({ email: req.body.email }).exec().then(function (users) {
@@ -110,4 +111,19 @@ router.get("/login/:id", function (req, res) { return __awaiter(void 0, void 0, 
         return [2 /*return*/];
     });
 }); });
+router.patch("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, User.findOneAndUpdate({ _id: req.params.id }, req.body, { returnOriginal: true }).exec().then(function (user) {
+                    res.status(200).json({ message: 'updated' });
+                }, function (err) {
+                    res.status(404).send({ message: err });
+                })];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); });
+router.patch("/addPost/:id", UserControler.addPost);
 module.exports = router;
