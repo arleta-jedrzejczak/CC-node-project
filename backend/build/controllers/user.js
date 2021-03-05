@@ -44,18 +44,42 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var User = require('../models/user').User;
 exports.addPost = function (req, res, next) {
     var id = req.params.id;
-    var post = req.body.post;
+    var postId = req.body.id;
     User.find({ _id: id }).exec().then(function (users) { return __awaiter(void 0, void 0, void 0, function () {
         var _posts, update;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _posts = __spreadArray(__spreadArray([], users[0].posts), [post]);
+                    _posts = __spreadArray(__spreadArray([], users[0].posts), [postId]);
                     update = {
                         posts: _posts
                     };
                     return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true }).exec().then(function (user) {
-                            return res.status(200);
+                            return res.status(200).send(user);
+                        }, function (err) {
+                            return res.status(404).json({ message: err });
+                        })];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+};
+exports.deletePost = function (req, res, next) {
+    var id = req.params.id;
+    var postId = req.body.id;
+    User.find({ _id: id }).exec().then(function (users) { return __awaiter(void 0, void 0, void 0, function () {
+        var _posts, update;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _posts = users[0].posts.filter(function (id) { return id !== postId; });
+                    update = {
+                        posts: _posts
+                    };
+                    return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true }).exec().then(function (user) {
+                            return res.status(200).send(user);
                         }, function (err) {
                             return res.status(404).json({ message: err });
                         })];

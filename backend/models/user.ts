@@ -10,25 +10,6 @@ export interface UserInterface extends Document{
    favourites: [];
 }
 
-const PostSchema=new mongoose.Schema({
-   date:{
-      type: String,
-      required: true
-   },
-   text:{
-      type: String,
-      required: true
-   },
-   id:{
-      type: String,
-      required: true      
-   },
-   image:{
-      type: String,
-      required: true
-   }
-})
-
 const UserSchema = new mongoose.Schema({
    _id: {
       type: mongoose.Schema.Types.ObjectId,
@@ -52,7 +33,7 @@ const UserSchema = new mongoose.Schema({
       default: [],
    },
    posts: {
-      type: [PostSchema],
+      type: Array,
       default: []
    }
 });

@@ -72,4 +72,6 @@ router.patch("/edit/:id", async(req: Request, res: Response)=>{
 
 router.patch("/addPost/:id", UserControler.addPost)
 
+router.patch("/deletePost/:id", UserControler.deletePost)
+
 module.exports = router;

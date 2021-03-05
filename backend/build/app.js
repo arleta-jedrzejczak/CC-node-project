@@ -8,7 +8,7 @@ var mongoose_1 = __importDefault(require("mongoose"));
 var app = express_1.default();
 var parser = require("body-parser");
 require("dotenv/config");
-mongoose_1.default.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true }, function () { return console.log("connected"); });
+mongoose_1.default.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, function () { return console.log("connected"); });
 app.use(parser.json());
 var usersRouter = require("./routes/users");
 app.use("/users", usersRouter);

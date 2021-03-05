@@ -126,4 +126,5 @@ router.patch("/edit/:id", function (req, res) { return __awaiter(void 0, void 0,
     });
 }); });
 router.patch("/addPost/:id", UserControler.addPost);
+router.patch("/deletePost/:id", UserControler.deletePost);
 module.exports = router;
