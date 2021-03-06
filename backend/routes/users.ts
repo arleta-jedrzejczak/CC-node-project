@@ -67,16 +67,19 @@ router.get("/login", async (req: Request, res: Response) => {
    })
 })
 
-router.patch("/edit/:id", async(req: Request, res: Response)=>{
+router.patch("/edit/:id", async (req: Request, res: Response) => {
    await User.findOneAndUpdate({_id: req.params.id}, req.body, {returnOriginal: true}).exec().then(user=>{
-         res.status(200).json({message: 'updated'})
-      },err=>{
-         res.status(404).send({message: err})
-   })
-})
+            res.status(200).json({message: "updated"});
+         }, err => {
+            res.status(404).send({message: err});
+         }
+      );
+});
 
 router.patch("/addPost/:id", UserControler.addPost)
 
 router.patch("/deletePost/:id", UserControler.deletePost)
+
+router.patch("/editName/:id", UserControler.editName)
 
 module.exports = router;

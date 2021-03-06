@@ -120,7 +120,7 @@ router.patch("/edit/:id", function (req, res) { return __awaiter(void 0, void 0,
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, User.findOneAndUpdate({ _id: req.params.id }, req.body, { returnOriginal: true }).exec().then(function (user) {
-                    res.status(200).json({ message: 'updated' });
+                    res.status(200).json({ message: "updated" });
                 }, function (err) {
                     res.status(404).send({ message: err });
                 })];
@@ -132,4 +132,5 @@ router.patch("/edit/:id", function (req, res) { return __awaiter(void 0, void 0,
 }); });
 router.patch("/addPost/:id", UserControler.addPost);
 router.patch("/deletePost/:id", UserControler.deletePost);
+router.patch("/editName/:id", UserControler.editName);
 module.exports = router;

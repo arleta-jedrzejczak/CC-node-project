@@ -90,3 +90,26 @@ exports.deletePost = function (req, res, next) {
         });
     }); });
 };
+exports.editName = function (req, res, next) {
+    var id = req.params.id;
+    var newName = req.body.newName;
+    User.findOne({ _id: id }).exec().then(function (user) { return __awaiter(void 0, void 0, void 0, function () {
+        var update;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    update = {
+                        name: newName
+                    };
+                    return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true }).exec().then(function (user) {
+                            return res.status(200).send(user);
+                        }, function (err) {
+                            return res.status(404).json({ message: err });
+                        })];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+};

@@ -133,6 +133,40 @@ describe("testing users", () => {
       done()
    })
 
+   it('adding new post id to user and delete it', async done=>{
+      const users=await request.get("/users/");
+      const randomUser=users.body[Math.floor(Math.random(users.body.length))]
+      const randomUserPassword=(randomUser.email.split('@'))[0]
+      const oldName=randomUser.name
+
+      const resp1=await request.patch(`/users/editName/${randomUser._id}`).send({
+         newName: 'new testing name'
+      })
+
+      await request.get(`/users/login/`).send({
+         email: randomUser.email,
+         password: randomUserPassword
+      }).then(resp=>{
+         expect(resp.body.name).toBe('new testing name')
+      })
+
+      expect(resp1.status).toBe(200)
+
+      const resp2=await request.patch(`/users/editName/${randomUser._id}`).send({
+         newName: oldName
+      })
+      
+      await request.get(`/users/login/`).send({
+         email: randomUser.email,
+         password: randomUserPassword
+      }).then(resp=>{
+         expect(resp.body.name).toBe(oldName)
+      })
+
+      expect(resp2.status).toBe(200)
+      done()
+   })
+
    afterAll(async () => {
       await connection.close();
       await db.close();

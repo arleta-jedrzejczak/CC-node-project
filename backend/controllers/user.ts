@@ -38,3 +38,20 @@ exports.deletePost=(req: Request, res: Response, next: NextFunction)=>{
       }) 
    })  
 }
+
+exports.editName=(req: Request, res: Response, next: NextFunction)=>{
+   const id=req.params.id
+   const newName=req.body.newName
+
+   User.findOne({_id: id}).exec().then(async user=>{
+      const update={
+         name: newName
+      }
+
+      await User.findOneAndUpdate({_id: id}, update, {returnOriginal: true}).exec().then(user=>{
+         return res.status(200).send(user);
+      },err=>{
+         return res.status(404).json({message: err});
+      }) 
+   })
+}
