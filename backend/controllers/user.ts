@@ -12,7 +12,7 @@ exports.addPost=(req: Request, res: Response, next: NextFunction)=>{
          posts: _posts
       }
 
-      await User.findOneAndUpdate({_id: id}, update, {returnOriginal: true}).exec().then(user=>{            
+      await User.findOneAndUpdate({_id: id}, update, {returnOriginal: true}).exec().then(user=>{
          return res.status(200).send(user);
       },err=>{
          return res.status(404).json({message: err});
@@ -31,7 +31,7 @@ exports.deletePost=(req: Request, res: Response, next: NextFunction)=>{
          posts: _posts
       }
 
-      await User.findOneAndUpdate({_id: id}, update, {returnOriginal: true}).exec().then(user=>{            
+      await User.findOneAndUpdate({_id: id}, update, {returnOriginal: true}).exec().then(user=>{
          return res.status(200).send(user);
       },err=>{
          return res.status(404).json({message: err});

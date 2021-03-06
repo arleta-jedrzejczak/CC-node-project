@@ -53,13 +53,18 @@ router.get("/", async (req: Request, res: Response) => {
    }
 });
 
-router.get("/login/:id", async (req: Request, res: Response) => {
-   User.find({_id: req.params.id}).exec().then(users => {
-      if (users.length > 0)  
-         return res.status(200).json(users[0]);
-      else 
-         return res.status(400).json({message: "no such user"});
-   });
+router.get("/login", async (req: Request, res: Response) => {
+   User.findOne({email: req.body.email}).exec().then(user => {
+      bcrypt.compare(req.body.password, user.password, (err, result)=>{
+         if(err)
+            return res.status(400).json({message: err})
+         if(result)
+            return res.status(200).json(user);
+         return res.status(401).json({message: 'Auth failed'})
+      })
+   }).catch(err=>{
+      return res.status(400).send(err)
+   })
 })
 
 router.patch("/edit/:id", async(req: Request, res: Response)=>{

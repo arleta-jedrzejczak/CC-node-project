@@ -100,13 +100,18 @@ router.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, f
         }
     });
 }); });
-router.get("/login/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.get("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        User.find({ _id: req.params.id }).exec().then(function (users) {
-            if (users.length > 0)
-                return res.status(200).json(users[0]);
-            else
-                return res.status(400).json({ message: "no such user" });
+        User.findOne({ email: req.body.email }).exec().then(function (user) {
+            bcrypt.compare(req.body.password, user.password, function (err, result) {
+                if (err)
+                    return res.status(400).json({ message: err });
+                if (result)
+                    return res.status(200).json(user);
+                return res.status(401).json({ message: 'Auth failed' });
+            });
+        }).catch(function (err) {
+            return res.status(400).send(err);
         });
         return [2 /*return*/];
     });

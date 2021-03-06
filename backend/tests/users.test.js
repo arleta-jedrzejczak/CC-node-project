@@ -10,7 +10,7 @@ describe("testing users", () => {
       await mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false });
    });
 
-   it("gets the users endpoint", async (done) => {
+   it("gets the users", async (done) => {
       const resp = await request.get("/users/");
       expect(resp.status).toBe(200);
 
@@ -46,22 +46,41 @@ describe("testing users", () => {
 
    it("getting a valid user", async (done) => {
       const users=await request.get("/users/");
-      const randomId=users.body[Math.floor(Math.random(users.body.length))]._id;
+      const randomUserEmail=users.body[Math.floor(Math.random(users.body.length))].email
+      const randomUserPassword=(randomUserEmail.split('@'))[0]
 
-      console.log(randomId);
-
-      const resp=await request.get(`/users/login/${randomId}`);
+      const resp=await request.get(`/users/login`).send({
+         email: randomUserEmail,
+         password: randomUserPassword
+      });
 
       expect(resp.status).toBe(200);
       expect(resp.body._id).toBeDefined();
       done();
    });
 
-   it("getting invalid user", async (done) => {
-      const resp = await request.get("/users/login/60376b73e415");
+   it("getting a valid user with wrong password", async (done) => {
+      const users=await request.get("/users/");
+      const randomUserEmail=users.body[Math.floor(Math.random(users.body.length))].email
+      const randomUserPassword=(randomUserEmail.split('@'))[0]
+
+      const resp=await request.get(`/users/login`).send({
+         email: randomUserEmail,
+         password: 'radnomIvalidPassword'
+      });
+
+      expect(resp.status).toBe(401);
+      expect(resp.body.message).toBe('Auth failed');
+      done();
+   });
+   
+   it("getting a invalid user", async (done) => {
+      const resp=await request.get(`/users/login`).send({
+         email: 'wrongMail@mail.com',
+         password: 'radnomIvalidPassword'
+      });
 
       expect(resp.status).toBe(400);
-      expect(resp.body.message).toBe("no such user");
       done();
    });
 
@@ -83,28 +102,34 @@ describe("testing users", () => {
 
    it('adding new post id to user and delete it', async done=>{
       const users=await request.get("/users/");
-      const randomId=users.body[Math.floor(Math.random(users.body.length))]._id;
+      const randomUser=users.body[Math.floor(Math.random(users.body.length))]
+      const randomUserPassword=(randomUser.email.split('@'))[0]
 
-      const respAdd=await request.patch(`/users/addPost/${randomId}`).send({
+      const respAdd=await request.patch(`/users/addPost/${randomUser._id}`).send({
          id: '2183728173'
       })
 
-      await request.get(`/users/login/${randomId}`).then(resp=>{
+      await request.get(`/users/login/`).send({
+         email: randomUser.email,
+         password: randomUserPassword
+      }).then(resp=>{
          expect(resp.body.posts.indexOf('2183728173')).not.toBe(-1)
       })
 
       expect(respAdd.status).toBe(200)
       
-      const respDelete=await request.patch(`/users/deletePost/${randomId}`).send({
+      const respDelete=await request.patch(`/users/deletePost/${randomUser._id}`).send({
          id: '2183728173'
       })
 
-      await request.get(`/users/login/${randomId}`).then(resp=>{
+      await request.get(`/users/login/`).send({
+         email: randomUser.email,
+         password: randomUserPassword
+      }).then(resp=>{
          expect(resp.body.posts.indexOf('2183728173')).toBe(-1)
       })
 
       expect(respDelete.status).toBe(200)
-
       done()
    })
 
