@@ -133,7 +133,7 @@ describe("testing users", () => {
       done()
    })
 
-   it('adding new post id to user and delete it', async done=>{
+   it('editing user name', async done=>{
       const users=await request.get("/users/");
       const randomUser=users.body[Math.floor(Math.random(users.body.length))]
       const randomUserPassword=(randomUser.email.split('@'))[0]
