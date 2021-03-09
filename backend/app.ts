@@ -13,8 +13,11 @@ mongoose.connect(
 app.use(parser.json());
 
 const usersRouter = require("./routes/users");
+const postsRouter = require("./routes/posts");
 
 app.use("/users", usersRouter);
+
+app.use("/posts", postsRouter);
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
