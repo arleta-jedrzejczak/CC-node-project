@@ -22,7 +22,7 @@ describe("testing posts", () => {
     });
 
     it("creating post with existing title", async (done) => {
-        const resp = await request.post("/posts/post").send({
+        const resp = await request.post("/posts/").send({
             title: "dog",
             tags: "#dog",
             image: "im",
@@ -38,7 +38,7 @@ describe("testing posts", () => {
     });
 
     it("adding new post", async (done) => {
-        const resp = await request.post("/posts/post").send({
+        const resp = await request.post("/posts/").send({
           title: "cat",
           tags: "#dog",
           image: "cat",
@@ -54,7 +54,7 @@ describe("testing posts", () => {
       });
 
     it("getting posts", async (done) => {
-        const resp = await request.get("/posts/library");
+        const resp = await request.get("/posts");
 
         expect(resp.status).toBe(200);
         expect(resp.body).toBeDefined();

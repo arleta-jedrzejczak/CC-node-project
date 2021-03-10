@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const router = express.Router();
 const Post = require("../models/posts");
 
-router.post("/post", (req: Request, res: Response) => {
+router.post("/", (req: Request, res: Response) => {
     Post.find({title: req.body.title}).exec().then((posts) =>{
         if(posts.length > 0){
             return res.status(409).json({ message: "Title of this posts already exists" });
@@ -23,7 +23,7 @@ router.post("/post", (req: Request, res: Response) => {
                     });
                     
                     post.save().then((result) => {
-                        return res.status(200).json(post);
+                        return res.status(201).json(post);
                     }).catch((err) => {
                         return res.status(500).json({ error: err });
                     });
@@ -33,7 +33,7 @@ router.post("/post", (req: Request, res: Response) => {
     })
 });
 
-router.get("/library", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
       const posts = await Post.find();
       return res.status(200).json(posts);
