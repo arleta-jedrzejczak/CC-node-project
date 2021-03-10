@@ -42,4 +42,33 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.put("/edit/:id", async (req: Request, res: Response) => {
+    const id = req.params.id;
+    Post.findOne({_id: id}, function(err, foundPost){
+        if(err){
+            console.log(err)
+            res.status(500).send();
+        } else {
+            if(!foundPost) {
+                res.status(404).send();
+            } else {
+                if(req.body.title) {
+                    foundPost.title = req.body.title;
+                }
+                if(req.body.tags) {
+                    foundPost.tags = req.body.tags;
+                }
+                foundPost.save(function(err, updatedPost) {
+                    if(err) {
+                        console.log(err);
+                        res.status(500).send();
+                    } else {
+                        res.send(updatedPost);
+                    }
+                });
+            }
+        }
+    });
+  });
+
 module.exports = router;

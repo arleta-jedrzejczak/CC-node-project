@@ -11,7 +11,9 @@ require("dotenv/config");
 mongoose_1.default.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, function () { return console.log("connected"); });
 app.use(parser.json());
 var usersRouter = require("./routes/users");
+var postsRouter = require("./routes/posts");
 app.use("/users", usersRouter);
+app.use("/posts", postsRouter);
 app.use(function (req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
