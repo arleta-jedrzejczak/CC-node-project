@@ -17,7 +17,7 @@ router.post("/", (req: Request, res: Response) => {
                         title: req.body.title,
                         tags: req.body.tags,
                         image: req.body.image,
-                        author: req.body.author, //tu będzie wykorzystanie metody localstorage typu autorIdRead() narazie statyczne dane :)
+                        author: req.body.author, //autorIdRead() from localstorage will be used here
                         likes: 0,
                         comments: []
                     });
