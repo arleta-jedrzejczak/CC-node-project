@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import mongoose from 'mongoose';
 const app = express();
 const parser = require("body-parser");
@@ -6,7 +6,7 @@ require("dotenv/config");
 
 mongoose.connect(
   process.env.DB_CONNECTION,
-  { useNewUrlParser: true, useUnifiedTopology: true },
+  {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false},
   () => console.log("connected")
 );
 
@@ -17,9 +17,11 @@ const postsRouter = require("./routes/posts");
 
 app.use("/users", usersRouter);
 
+
 app.use("/posts", postsRouter);
 
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
+
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
@@ -32,7 +34,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   res.send("Working!");
 });
 
