@@ -1,12 +1,12 @@
-import express, {Request, Response, NextFunction} from 'express';
-import mongoose from 'mongoose';
+import express, { Request, Response, NextFunction } from "express";
+import mongoose from "mongoose";
 const app = express();
 const parser = require("body-parser");
 require("dotenv/config");
 
 mongoose.connect(
   process.env.DB_CONNECTION,
-  {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false},
+  { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },
   () => console.log("connected")
 );
 
