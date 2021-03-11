@@ -1,5 +1,5 @@
-import express, { Response, Request } from 'express';
-import mongoose from 'mongoose';
+import express, { Response, Request } from "express";
+import mongoose from "mongoose";
 const router = express.Router();
 const Post = require("../models/posts");
 
@@ -29,12 +29,31 @@ router.post("/", (req: Request, res: Response) => {
 
 
 router.get("/", async (req, res) => {
-    try {
-        const posts = await Post.find();
-        return res.status(200).json(posts);
-    } catch (err) {
-        return res.status(400).json({ message: err });
-    }
+  try {
+    const posts = await Post.find();
+    return res.status(200).json(posts);
+  } catch (err) {
+    return res.status(400).json({ message: err });
+  }
+});
+
+router.get("/:postId", async (req: Request, res: Response) => {
+  if (mongoose.Types.ObjectId.isValid(req.params.postId)) {
+    const post = await Post.findById(req.params.postId);
+    if (!post)
+      return res.status(404).send("The post with the given ID was not found.");
+    res.send(post);
+  } else res.status(404).send("Invalid ID");
+});
+
+router.delete("/:postId", async (req: Request, res: Response) => {
+  if (mongoose.Types.ObjectId.isValid(req.params.postId)) {
+    const post = await Post.findByIdAndRemove(req.params.postId);
+    if (!post)
+      return res.status(404).send("The post with the given ID was not found.");
+    res.status(200).send(post);
+  } else
+    return res.status(404).send("Invalid ID");
 });
 
 module.exports = router;
