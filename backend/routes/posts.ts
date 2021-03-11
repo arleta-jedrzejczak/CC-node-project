@@ -46,11 +46,10 @@ router.put("/edit/:id", async (req: Request, res: Response) => {
     const id = req.params.id;
     Post.findOne({_id: id}, function(err, foundPost){
         if(err){
-            console.log(err)
-            res.status(500).send();
+            res.status(404).send("Invalid ID");
         } else {
             if(!foundPost) {
-                res.status(404).send();
+                res.status(404).send("The post with the given ID was not found.");
             } else {
                 if(req.body.title) {
                     foundPost.title = req.body.title;
@@ -60,10 +59,9 @@ router.put("/edit/:id", async (req: Request, res: Response) => {
                 }
                 foundPost.save(function(err, updatedPost) {
                     if(err) {
-                        console.log(err);
-                        res.status(500).send();
+                        res.status(500).send("Something went wrong");
                     } else {
-                        res.send(updatedPost);
+                        res.status(200).send(updatedPost);
                     }
                 });
             }

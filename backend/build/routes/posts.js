@@ -97,11 +97,11 @@ router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, v
         Post.findOne({ _id: id }, function (err, foundPost) {
             if (err) {
                 console.log(err);
-                res.status(500).send();
+                res.status(404).send("Invalid ID");
             }
             else {
                 if (!foundPost) {
-                    res.status(404).send();
+                    res.status(404).send("The post with the given ID was not found.");
                 }
                 else {
                     if (req.body.title) {
@@ -113,7 +113,7 @@ router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, v
                     foundPost.save(function (err, updatedPost) {
                         if (err) {
                             console.log(err);
-                            res.status(500).send();
+                            res.status(500).send("Something went wrong");
                         }
                         else {
                             res.send(updatedPost);
