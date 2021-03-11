@@ -21,22 +21,6 @@ describe("testing posts", () => {
         done();
     });
 
-    it("creating post with existing title", async (done) => {
-        const resp = await request.post("/posts/").send({
-            title: "dog",
-            tags: "#dog",
-            image: "im",
-            author: 1, //tu będzie wykorzystanie metody localstorage typu autorIdRead() narazie statyczne dane :)
-            likes: 0,
-            comments: []
-        });
-
-        expect(resp.status).toBe(409);
-        expect(resp.body.message).toBe("Title of this posts already exists");
-
-        done();
-    });
-
     it("adding new post", async (done) => {
         const resp = await request.post("/posts/").send({
           title: "cat",
