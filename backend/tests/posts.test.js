@@ -113,8 +113,29 @@ describe("testing posts", () => {
     done();
   });
 
-  afterAll(async () => {
-    await connection.close();
-    await db.close();
-  });
+//////////////////////////// MARIUSZ ////////////////////////////
+    it("should response with 404 for getting post with an invalid post ID", async (done) => {
+        const invalidId = "123Invalid";
+        const resp = await request.put(`/posts/edit/${invalidId}`);
+        expect(resp.status).toBe(404);
+        done();
+      });
+
+    it("edit post", async (done) => {
+        const resp = await request.put(`/posts/edit/6048ed490cdd8c5f47abe229`)
+        .send({
+            title: "testEdit",
+            tags: "#testEdit"
+        });
+
+        expect(resp.body.title).toBe("testEdit");
+        expect(resp.body.tags).toStrictEqual(["#testEdit"]);
+        expect(resp.status).toBe(200);
+        done();
+      });
+
+    afterAll(async () => {
+        await connection.close();
+        await db.close();
+    });
 });
