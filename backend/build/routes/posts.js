@@ -44,14 +44,22 @@ var mongoose_1 = __importDefault(require("mongoose"));
 var router = express_1.default.Router();
 var Post = require("../models/posts");
 router.post("/", function (req, res) {
-    Post.find({ title: req.body.title }).exec().then(function (posts) {
+    Post.find({ title: req.body.title })
+        .exec()
+        .then(function (posts) {
         if (posts.length > 0) {
-            return res.status(409).json({ message: "Title of this posts already exists" });
+            return res
+                .status(409)
+                .json({ message: "Title of this posts already exists" });
         }
         else {
-            Post.find({ image: req.body.image }).exec().then(function (posts) {
+            Post.find({ image: req.body.image })
+                .exec()
+                .then(function (posts) {
                 if (posts.length > 0) {
-                    return res.status(409).json({ message: "That image was already posted" });
+                    return res
+                        .status(409)
+                        .json({ message: "That image was already posted" });
                 }
                 else {
                     var post_1 = new Post({
@@ -63,9 +71,12 @@ router.post("/", function (req, res) {
                         likes: 0,
                         comments: []
                     });
-                    post_1.save().then(function (result) {
+                    post_1
+                        .save()
+                        .then(function (result) {
                         return res.status(201).json(post_1);
-                    }).catch(function (err) {
+                    })
+                        .catch(function (err) {
                         return res.status(500).json({ error: err });
                     });
                 }
@@ -90,13 +101,50 @@ router.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, f
         }
     });
 }); });
+router.get("/:postId", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var post;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!mongoose_1.default.Types.ObjectId.isValid(req.params.postId)) return [3 /*break*/, 2];
+                return [4 /*yield*/, Post.findById(req.params.postId)];
+            case 1:
+                post = _a.sent();
+                if (!post)
+                    return [2 /*return*/, res.status(404).send("The post with the given ID was not found.")];
+                res.send(post);
+                return [3 /*break*/, 3];
+            case 2:
+                res.status(404).send("Invalid ID");
+                _a.label = 3;
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+router.delete("/:postId", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var post;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!mongoose_1.default.Types.ObjectId.isValid(req.params.postId)) return [3 /*break*/, 2];
+                return [4 /*yield*/, Post.findByIdAndRemove(req.params.postId)];
+            case 1:
+                post = _a.sent();
+                if (!post)
+                    return [2 /*return*/, res.status(404).send("The post with the given ID was not found.")];
+                res.status(200).send(post);
+                return [3 /*break*/, 3];
+            case 2: return [2 /*return*/, res.status(404).send("Invalid ID")];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var id;
     return __generator(this, function (_a) {
         id = req.params.id;
         Post.findOne({ _id: id }, function (err, foundPost) {
             if (err) {
-                console.log(err);
                 res.status(404).send("Invalid ID");
             }
             else {
@@ -112,11 +160,10 @@ router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, v
                     }
                     foundPost.save(function (err, updatedPost) {
                         if (err) {
-                            console.log(err);
                             res.status(500).send("Something went wrong");
                         }
                         else {
-                            res.send(updatedPost);
+                            res.status(200).send(updatedPost);
                         }
                     });
                 }
