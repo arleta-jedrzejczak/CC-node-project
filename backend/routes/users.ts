@@ -18,7 +18,7 @@ router.post("/register", (req: Request, res: Response) => {
             else {
               Auth.send(req.body.name, req.body.email, req.body.password);
 
-              res.send("email sent");
+              res.send({message: "email sent"});
             }
           });
       }

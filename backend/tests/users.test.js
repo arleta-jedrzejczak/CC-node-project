@@ -89,19 +89,32 @@ describe("testing users", () => {
     done();
   });
 
-  it("creating a new user", async (done) => {
+//   it("creating a new user", async (done) => {
+//     const resp = await request.post("/users/register").send({
+//       name: "new user",
+//       email: "user@mail.com",
+//       password: "somePassword@#!",
+//     });
+
+//     const user = await User.findOne({ name: "new user" });
+
+//     expect(user._id).toBeTruthy();
+//     // await User.deleteMany({name: "jane01"})
+
+//     await User.findByIdAndDelete(user._id);
+//     done();
+//   });
+
+  it("send registration email", async (done) => {
     const resp = await request.post("/users/register").send({
       name: "new user",
       email: "user@mail.com",
       password: "somePassword@#!",
     });
 
-    const user = await User.findOne({ name: "new user" });
+    console.log(resp.body);
 
-    expect(user._id).toBeTruthy();
-    // await User.deleteMany({name: "jane01"})
-
-    await User.findByIdAndDelete(user._id);
+    expect(resp.body.message).toBe('email sent');
     done();
   });
 
