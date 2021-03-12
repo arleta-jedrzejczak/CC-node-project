@@ -29,7 +29,7 @@ The application allows you to view and add posts containing a title, photo, and 
 8.  Ability to add a post to your favorites (future version)
 ## Mongoose Schema
 ### User
-`
+```
     const UserSchema = new mongoose.Schema({
       _id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -57,9 +57,9 @@ The application allows you to view and add posts containing a title, photo, and 
         default: [],
       },
     });
-`
+```
 ### Posts
-`
+```
     const PostsSchema = new mongoose.Schema({
       _id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -91,7 +91,7 @@ The application allows you to view and add posts containing a title, photo, and 
         required: true,
       },
     });
-`
+```
 ## API documentation
 ### Allowed HTTPs requests:
 GET: Get a resource with the given ID or list of resources
@@ -132,17 +132,27 @@ DELETE: Delete a resource
 ### API endpoints
 #### User - ./routes/users
 `POST/routes/users/register` - for register a new users, required attributes name, email, password
+
 `GET/routes/users/`- to get a list of all users
+
 `GET/routes/users/login` - to login a user
+
 `PATCH/edit/id` - to edit user details
+
 `PATCH/addPost/id` - to add a new post
+
 `PATCH/deletePost/id` - to delete an existing post
+
 `PATCH/editName/id` - to edit user name
 
 #### Posts - ./routes/posts
 There are two types of synchronization and they can complement each other:
 `POST/routes/posts` - for creating a post, required attributes: title, tags, image, author
+
 `GET/routes/posts` - for list of all posts
+
 `GET/routes/posts/postID` - to get the post with the given ID
+
 `DELETE/routes/posts/postID` - to delete the post with the given ID
+
 `PUT/routes/posts/edit/postID` - to change the posts’s title or tags
