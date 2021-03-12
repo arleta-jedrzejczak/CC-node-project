@@ -28,8 +28,8 @@ var UserSchema = new mongoose_1.default.Schema({
     },
     posts: {
         type: Array,
-        default: []
-    }
+        default: [],
+    },
 });
 var User = mongoose_1.default.model("Users", UserSchema);
 module.exports = { User: User };

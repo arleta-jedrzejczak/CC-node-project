@@ -11,29 +11,29 @@ var PostsSchema = new mongoose_1.default.Schema({
     },
     author: {
         type: Number,
-        required: true
+        required: true,
     },
     title: {
         type: String,
-        required: true
+        required: true,
     },
     comments: {
         type: Array,
-        default: []
+        default: [],
     },
     tags: {
         type: [String],
         required: true,
-        lowercase: true
+        lowercase: true,
     },
     likes: {
         type: Number,
-        default: 0
+        default: 0,
     },
     image: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     }
 });
 module.exports = mongoose_1.default.model("Posts", PostsSchema);

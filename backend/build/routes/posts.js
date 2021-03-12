@@ -121,4 +121,37 @@ router.delete("/:postId", function (req, res) { return __awaiter(void 0, void 0,
         }
     });
 }); });
+router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id;
+    return __generator(this, function (_a) {
+        id = req.params.id;
+        Post.findOne({ _id: id }, function (err, foundPost) {
+            if (err) {
+                res.status(404).send("Invalid ID");
+            }
+            else {
+                if (!foundPost) {
+                    res.status(404).send("The post with the given ID was not found.");
+                }
+                else {
+                    if (req.body.title) {
+                        foundPost.title = req.body.title;
+                    }
+                    if (req.body.tags) {
+                        foundPost.tags = req.body.tags;
+                    }
+                    foundPost.save(function (err, updatedPost) {
+                        if (err) {
+                            res.status(500).send("Something went wrong");
+                        }
+                        else {
+                            res.status(200).send(updatedPost);
+                        }
+                    });
+                }
+            }
+        });
+        return [2 /*return*/];
+    });
+}); });
 module.exports = router;
