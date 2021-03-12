@@ -41,20 +41,24 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
     return to;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var User = require('../models/user').User;
+var User = require("../models/user").User;
 exports.addPost = function (req, res, next) {
     var id = req.params.id;
     var postId = req.body.id;
-    User.find({ _id: id }).exec().then(function (users) { return __awaiter(void 0, void 0, void 0, function () {
+    User.find({ _id: id })
+        .exec()
+        .then(function (users) { return __awaiter(void 0, void 0, void 0, function () {
         var _posts, update;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _posts = __spreadArray(__spreadArray([], users[0].posts), [postId]);
                     update = {
-                        posts: _posts
+                        posts: _posts,
                     };
-                    return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true }).exec().then(function (user) {
+                    return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
+                            .exec()
+                            .then(function (user) {
                             return res.status(200).send(user);
                         }, function (err) {
                             return res.status(404).json({ message: err });
@@ -69,16 +73,20 @@ exports.addPost = function (req, res, next) {
 exports.deletePost = function (req, res, next) {
     var id = req.params.id;
     var postId = req.body.id;
-    User.find({ _id: id }).exec().then(function (users) { return __awaiter(void 0, void 0, void 0, function () {
+    User.find({ _id: id })
+        .exec()
+        .then(function (users) { return __awaiter(void 0, void 0, void 0, function () {
         var _posts, update;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _posts = users[0].posts.filter(function (id) { return id !== postId; });
                     update = {
-                        posts: _posts
+                        posts: _posts,
                     };
-                    return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true }).exec().then(function (user) {
+                    return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
+                            .exec()
+                            .then(function (user) {
                             return res.status(200).send(user);
                         }, function (err) {
                             return res.status(404).json({ message: err });
@@ -93,15 +101,19 @@ exports.deletePost = function (req, res, next) {
 exports.editName = function (req, res, next) {
     var id = req.params.id;
     var newName = req.body.newName;
-    User.findOne({ _id: id }).exec().then(function (user) { return __awaiter(void 0, void 0, void 0, function () {
+    User.findOne({ _id: id })
+        .exec()
+        .then(function (user) { return __awaiter(void 0, void 0, void 0, function () {
         var update;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     update = {
-                        name: newName
+                        name: newName,
                     };
-                    return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true }).exec().then(function (user) {
+                    return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
+                            .exec()
+                            .then(function (user) {
                             return res.status(200).send(user);
                         }, function (err) {
                             return res.status(404).json({ message: err });

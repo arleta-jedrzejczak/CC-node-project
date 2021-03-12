@@ -40,49 +40,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var mongoose_1 = __importDefault(require("mongoose"));
 var router = express_1.default.Router();
 var User = require("../models/user").User;
-var UserControler = require('../controllers/user');
+var UserControler = require("../controllers/user");
+var Auth = require("../controllers/authentication");
 var bcrypt = require("bcrypt");
 router.post("/register", function (req, res) {
-    User.find({ email: req.body.email }).exec().then(function (users) {
+    User.find({ email: req.body.email })
+        .exec()
+        .then(function (users) {
         if (users.length > 0)
             return res.status(409).json({ message: "email already exists" });
         else {
-            User.find({ name: req.body.name })
-                .exec()
-                .then(function (users) {
+            User.find({ name: req.body.name }).exec().then(function (users) {
                 if (users.length > 0)
                     return res.status(409).json({ message: "such name already exists" });
                 else {
-                    bcrypt.hash(req.body.password, 10, function (err, hash) {
-                        if (err)
-                            return res.status(500).json({ error: err });
-                        else {
-                            var user_1 = new User({
-                                _id: new mongoose_1.default.Types.ObjectId(),
-                                name: req.body.name,
-                                email: req.body.email,
-                                password: hash,
-                                favourites: [],
-                                posts: [],
-                            });
-                            user_1
-                                .save()
-                                .then(function (result) {
-                                return res.status(200).json(user_1);
-                            })
-                                .catch(function (err) {
-                                return res.status(500).json({ error: err });
-                            });
-                        }
-                    });
+                    Auth.send(req.body.name, req.body.email, req.body.password);
+                    res.send({ message: "email sent" });
                 }
             });
         }
     });
 });
+router.post("/email-activation", Auth.activateAccount);
 router.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var users, err_1;
     return __generator(this, function (_a) {
@@ -102,15 +83,18 @@ router.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, f
 }); });
 router.get("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        User.findOne({ email: req.body.email }).exec().then(function (user) {
+        User.findOne({ email: req.body.email })
+            .exec()
+            .then(function (user) {
             bcrypt.compare(req.body.password, user.password, function (err, result) {
                 if (err)
                     return res.status(400).json({ message: err });
                 if (result)
                     return res.status(200).json(user);
-                return res.status(401).json({ message: 'Auth failed' });
+                return res.status(401).json({ message: "Auth failed" });
             });
-        }).catch(function (err) {
+        })
+            .catch(function (err) {
             return res.status(400).send(err);
         });
         return [2 /*return*/];
@@ -119,7 +103,11 @@ router.get("/login", function (req, res) { return __awaiter(void 0, void 0, void
 router.patch("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, User.findOneAndUpdate({ _id: req.params.id }, req.body, { returnOriginal: true }).exec().then(function (user) {
+            case 0: return [4 /*yield*/, User.findOneAndUpdate({ _id: req.params.id }, req.body, {
+                    returnOriginal: true,
+                })
+                    .exec()
+                    .then(function (user) {
                     res.status(200).json({ message: "updated" });
                 }, function (err) {
                     res.status(404).send({ message: err });

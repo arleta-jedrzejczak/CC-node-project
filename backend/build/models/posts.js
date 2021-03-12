@@ -4,32 +4,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var mongoose_1 = __importDefault(require("mongoose"));
-var UserSchema = new mongoose_1.default.Schema({
+var PostsSchema = new mongoose_1.default.Schema({
     _id: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         required: true,
     },
-    name: {
+    author: {
+        type: Number,
+        required: true,
+    },
+    title: {
         type: String,
         required: true,
     },
-    email: {
+    comments: {
+        type: Array,
+        default: [],
+    },
+    tags: {
+        type: [String],
+        required: true,
+        lowercase: true,
+    },
+    likes: {
+        type: Number,
+        default: 0,
+    },
+    image: {
         type: String,
         required: true,
-        match: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-    },
-    password: {
-        type: String,
-        require: true,
-    },
-    favourites: {
-        type: Array,
-        default: [],
-    },
-    posts: {
-        type: Array,
-        default: [],
     },
 });
-var User = mongoose_1.default.model("Users", UserSchema);
-module.exports = { User: User };
+module.exports = mongoose_1.default.model("Posts", PostsSchema);
