@@ -33,7 +33,7 @@ var PostsSchema = new mongoose_1.default.Schema({
     image: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     }
 });
 module.exports = mongoose_1.default.model("Posts", PostsSchema);
