@@ -41,6 +41,7 @@ build/Release
 node_modules/
 jspm_packages/
 .backend/node_modules/
+.backend/build/
 
 # TypeScript v1 declaration files
 typings/
@@ -70,8 +71,6 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
-.env.test
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
