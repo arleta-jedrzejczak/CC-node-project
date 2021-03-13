@@ -7,14 +7,24 @@
  - Mariusz Olszewski 
  - Bartosz Ratajczyk
  - Urszula Wilk
-## Tech stack
--   NodeJS
--   ExpressJS
--   MongoDB / mongoose
--   TypeScript
--   Jest
+## Main technologies
+-   NodeJS 
+-   ExpressJS     4.17.11
+-   MongoDB / mongoose     5.11.18
+-   TypeScript    4.2.2
+-   Jest    26.6.3
+## Additional packages
+-  nodemon
+-  body-parser
+-  mailgun
+-  supertest
+-  prettier
+-  jsonwebtoken
+-  dotenv
+-  bcrypt
+
 ## Project description
-The application allows you to view and add posts containing a title, photo, and tags. Users who are not logged in can view added posts, search by title or tags. If a user wants to add a post, he/she must register. Logged-in users can create new posts, edit and delete their own posts, as well as add the posts of other authors to favorites.
+This application allows you to view and add posts containing a title, photo, and tags. Users who are not logged in, can view added posts and search them by title or tags. If a user wants to add a post, he/she must register. Logged-in users can create new posts, edit and delete their own posts, as well as add the posts of other users to favorites.
 ## List of functionalities
 1.  Possibility to create an account
 2.  Sending a verification email
@@ -25,7 +35,7 @@ The application allows you to view and add posts containing a title, photo, and 
 4.  The ability to read the post - any user
 5.  Possibility to edit the post - only the post author
 6.  Possibility to delete a post - only the author of the post
-7.  The ability to add comments - only logged in users (future version)
+7.  The ability to add comments - only logged users (future version)
 8.  Ability to add a post to your favorites (future version)
 ## Mongoose Schema
 ### User
@@ -112,7 +122,7 @@ DELETE: Delete a resource
 
 ### Users Attributes
 
-    id (Number): unique identifier
+    id (ID Object): unique identifier
     name (String)
     email (String)
     password (String)
@@ -121,7 +131,7 @@ DELETE: Delete a resource
 
 ### Posts Attributes
 
-    id (Number) : unique identifier
+    id (ID Object) : unique identifier
     title (String) 
     tags (Array of strings)
     image (String)
@@ -133,9 +143,11 @@ DELETE: Delete a resource
 #### User - ./routes/users
 `POST/routes/users/register` - for register a new users, required attributes name, email, password
 
+`POST/routes/users/email-activation` - to authenticate user account via the email sent into given mail-box
+
 `GET/routes/users/`- to get a list of all users
 
-`GET/routes/users/login` - to login a user
+`GET/routes/users/login` - to login a user with a email and password
 
 `PATCH/edit/id` - to edit user details
 
@@ -143,7 +155,7 @@ DELETE: Delete a resource
 
 `PATCH/deletePost/id` - to delete an existing post
 
-`PATCH/editName/id` - to edit user name
+`PATCH/editName/id` - to edit username
 
 #### Posts - ./routes/posts
 There are two types of synchronization and they can complement each other:
