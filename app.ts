@@ -17,7 +17,6 @@ const postsRouter = require("./routes/posts");
 
 app.use("/users", usersRouter);
 
-
 app.use("/posts", postsRouter);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
