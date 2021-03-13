@@ -5,7 +5,7 @@ const parser = require("body-parser");
 require("dotenv/config");
 
 mongoose.connect(
-  process.env.DB_CONNECTION,
+  "mongodb+srv://Camp:devian@cluster0.6wpvf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },
   () => console.log("connected")
 );
