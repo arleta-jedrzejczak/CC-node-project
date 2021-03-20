@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const app = express();
 const parser = require("body-parser");
 require("dotenv/config");
+const cors=require('cors')
 
 mongoose.connect(
   "mongodb+srv://Camp:devian@cluster0.6wpvf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -10,6 +11,7 @@ mongoose.connect(
   () => console.log("connected")
 );
 
+app.use(cors())
 app.use(parser.json());
 
 const usersRouter = require("./routes/users");
