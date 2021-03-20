@@ -11,11 +11,6 @@ require("dotenv/config");
 var cors = require('cors');
 mongoose_1.default.connect("mongodb+srv://Camp:devian@cluster0.6wpvf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, function () { return console.log("connected"); });
 app.use(cors());
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
 app.use(parser.json());
 var usersRouter = require("./routes/users");
 var postsRouter = require("./routes/posts");
