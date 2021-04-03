@@ -83,4 +83,10 @@ router.patch("/editName/:id", UserControler.editName);
 
 router.patch("/editAvatar/:id", UserControler.editAvatar);
 
+router.patch("/addFavorite/:id", UserControler.addFavorite);
+
+router.patch("/addPost/:id", UserControler.addPost);
+
+router.patch("/deletePost/:id", UserControler.addPost);
+
 module.exports = router;
