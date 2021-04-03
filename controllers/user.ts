@@ -76,3 +76,28 @@ exports.editName = (req: Request, res: Response, next: NextFunction) => {
         );
     });
 };
+
+exports.editAvatar = (req: Request, res: Response, next: NextFunction) => {
+   const id = req.params.id;
+   const avatar = req.body.avatar;
+ 
+   User.findOne({ _id: id })
+     .exec()
+     .then(async (user) => {
+       const update = {
+         avatar: avatar,
+       };
+ 
+       await User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
+         .exec()
+         .then(
+           (user) => {
+             return res.status(200).send(user);
+           },
+           (err) => {
+             return res.status(404).json({ message: err });
+           }
+         );
+     });
+ };
+ 

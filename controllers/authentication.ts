@@ -48,6 +48,7 @@ exports.activateAccount = (req: Request, res: Response, next: NextFunction) => {
                   name: name,
                   email: email,
                   password: hash,
+                  avatar: '',
                   favourites: [],
                   posts: [],
                });

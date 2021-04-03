@@ -5,6 +5,7 @@ export interface UserInterface extends Document {
   name: string;
   email: string;
   password: string;
+  avatar: string;
   __v: number;
   posts: [];
   favourites: [];
@@ -27,6 +28,9 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     require: true,
+  },
+  avatar:{
+   type: String
   },
   favourites: {
     type: Array,

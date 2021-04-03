@@ -36,6 +36,15 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
+router.get("/:id", async (req: Request, res: Response) => {
+  try {
+    const user = await User.findOne({_id: req.params.id});
+    return res.status(200).json(user);
+  } catch (err) {
+    return res.status(400).json({ message: err });
+  }
+});
+
 router.get("/login", async (req: Request, res: Response) => {
   User.findOne({ email: req.body.email })
     .exec()
@@ -71,5 +80,7 @@ router.patch("/addPost/:id", UserControler.addPost);
 router.patch("/deletePost/:id", UserControler.deletePost);
 
 router.patch("/editName/:id", UserControler.editName);
+
+router.patch("/editAvatar/:id", UserControler.editAvatar);
 
 module.exports = router;
