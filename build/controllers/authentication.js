@@ -22,8 +22,10 @@ exports.send = function (name, email, password) {
         subject: "Email confirmation",
         html: "\n         <h2>PLease click the link below to confirm your email</h2>\n         <p>localhost:3000/users/auth/" + token + "</p>\n      ",
     }, function (err, body) {
-        if (err)
+        if (err) {
+            console.log(err);
             return err;
+        }
     });
 };
 exports.activateAccount = function (req, res, next) {
@@ -43,7 +45,7 @@ exports.activateAccount = function (req, res, next) {
                         email: email,
                         password: hash,
                         avatar: '',
-                        favourites: [],
+                        favorites: [],
                         posts: [],
                     });
                     user_1.save().then(function (result) {

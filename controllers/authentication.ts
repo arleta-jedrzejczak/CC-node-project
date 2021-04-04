@@ -12,7 +12,7 @@ const mg = mailgun({
 exports.send = (name: string, email: string, password: string) => {
    const token = jwt.sign({name, email, password}, process.env.JWT_KEY, {
       expiresIn: "15m",
-   });
+   });   
 
    mg.messages().send(
       {
@@ -25,7 +25,10 @@ exports.send = (name: string, email: string, password: string) => {
       `,
       },
       (err, body) => {
-         if (err) return err;
+         if(err){
+            console.log(err);
+            return err;
+         }
       }
    );
 };

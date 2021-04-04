@@ -40,15 +40,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
+var mongoose_1 = __importDefault(require("mongoose"));
 var router = express_1.default.Router();
 var User = require("../models/user").User;
 var UserControler = require("../controllers/user");
 var Auth = require("../controllers/authentication");
 var bcrypt = require("bcrypt");
 router.post("/register", function (req, res) {
-    User.find({ email: req.body.email })
-        .exec()
-        .then(function (users) {
+    User.find({ email: req.body.email }).exec().then(function (users) {
         if (users.length > 0)
             return res.status(409).json({ message: "email already exists" });
         else {
@@ -56,14 +55,34 @@ router.post("/register", function (req, res) {
                 if (users.length > 0)
                     return res.status(409).json({ message: "such name already exists" });
                 else {
-                    Auth.send(req.body.name, req.body.email, req.body.password);
-                    res.send({ message: "email sent" });
+                    //   Auth.send(req.body.name, req.body.email, req.body.password);
+                    //   res.send({message: "email sent"});
+                    bcrypt.hash(req.body.password, 10, function (err, hash) {
+                        if (err)
+                            return res.status(500).json({ error: err });
+                        else {
+                            var user_1 = new User({
+                                _id: new mongoose_1.default.Types.ObjectId(),
+                                name: req.body.name,
+                                email: req.body.email,
+                                password: hash,
+                                avatar: '',
+                                favorites: [],
+                                posts: [],
+                            });
+                            user_1.save().then(function (result) {
+                                return res.status(200).json(user_1);
+                            }).catch(function (err) {
+                                return res.status(500).json({ error: err });
+                            });
+                        }
+                    });
                 }
             });
         }
     });
 });
-router.post("/email-activation", Auth.activateAccount);
+// router.post("/email-activation", Auth.activateAccount);
 router.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var users, err_1;
     return __generator(this, function (_a) {
