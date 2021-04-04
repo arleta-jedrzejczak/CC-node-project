@@ -45,25 +45,24 @@ var router = express_1.default.Router();
 var Post = require("../models/posts");
 router.post("/", function (req, res) {
     Post.find({ image: req.body.image }).exec().then(function (posts) {
-        if (posts.length > 0) {
-            return res.status(409).json({ message: "That image was already posted" });
-        }
-        else {
-            var post_1 = new Post({
-                _id: new mongoose_1.default.Types.ObjectId(),
-                title: req.body.title,
-                tags: req.body.tags,
-                image: req.body.image,
-                author: req.body.author,
-                likes: 0,
-                comments: []
-            });
-            post_1.save().then(function (result) {
-                return res.status(201).json(post_1);
-            }).catch(function (err) {
-                return res.status(500).json({ error: err });
-            });
-        }
+        //   if (posts.length > 0) {
+        //       return res.status(409).json({ message: "That image was already posted" });
+        //   } else {
+        var post = new Post({
+            _id: new mongoose_1.default.Types.ObjectId(),
+            title: req.body.title,
+            tags: req.body.tags,
+            image: req.body.image,
+            author: req.body.author,
+            likes: 0,
+            comments: []
+        });
+        post.save().then(function (result) {
+            return res.status(201).json(post);
+        }).catch(function (err) {
+            return res.status(500).json({ error: err });
+        });
+        //   }
     });
 });
 router.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {

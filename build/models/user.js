@@ -22,7 +22,10 @@ var UserSchema = new mongoose_1.default.Schema({
         type: String,
         require: true,
     },
-    favourites: {
+    avatar: {
+        type: String
+    },
+    favorites: {
         type: Array,
         default: [],
     },

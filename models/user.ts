@@ -8,7 +8,7 @@ export interface UserInterface extends Document {
   avatar: string;
   __v: number;
   posts: [];
-  favourites: [];
+  favorites: [];
 }
 
 const UserSchema = new mongoose.Schema({
@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
   avatar:{
    type: String
   },
-  favourites: {
+  favorites: {
     type: Array,
     default: [],
   },

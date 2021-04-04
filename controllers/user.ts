@@ -11,7 +11,7 @@ exports.addPost = (req: Request, res: Response, next: NextFunction) => {
      .then(async (user) => {
        const update = {
          posts: [...user.posts, post],
-       };
+       };       
  
        await User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
          .exec()

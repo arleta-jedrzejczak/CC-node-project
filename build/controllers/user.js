@@ -45,17 +45,16 @@ var User = require("../models/user").User;
 var bcrypt = require('bcrypt');
 exports.addPost = function (req, res, next) {
     var id = req.params.id;
-    var postId = req.body.id;
-    User.find({ _id: id })
+    var post = req.body.post;
+    User.findOne({ _id: id })
         .exec()
-        .then(function (users) { return __awaiter(void 0, void 0, void 0, function () {
-        var _posts, update;
+        .then(function (user) { return __awaiter(void 0, void 0, void 0, function () {
+        var update;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _posts = __spreadArray(__spreadArray([], users[0].posts), [postId]);
                     update = {
-                        posts: _posts,
+                        posts: __spreadArray(__spreadArray([], user.posts), [post]),
                     };
                     return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
                             .exec()
@@ -73,17 +72,17 @@ exports.addPost = function (req, res, next) {
 };
 exports.deletePost = function (req, res, next) {
     var id = req.params.id;
-    var postId = req.body.id;
-    User.find({ _id: id })
+    var post = req.body.post;
+    User.findOne({ _id: id })
         .exec()
-        .then(function (users) { return __awaiter(void 0, void 0, void 0, function () {
-        var _posts, update;
+        .then(function (user) { return __awaiter(void 0, void 0, void 0, function () {
+        var posts, update;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _posts = users[0].posts.filter(function (id) { return id !== postId; });
+                    posts = user.posts.filter(function (_post) { return _post !== post; });
                     update = {
-                        posts: _posts,
+                        posts: posts,
                     };
                     return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
                             .exec()
@@ -128,7 +127,7 @@ exports.editName = function (req, res, next) {
 };
 exports.editEmail = function (req, res, next) {
     var id = req.params.id;
-    var newEmail = req.body.newEmail;
+    var email = req.body.email;
     User.findOne({ _id: id })
         .exec()
         .then(function (user) { return __awaiter(void 0, void 0, void 0, function () {
@@ -137,7 +136,7 @@ exports.editEmail = function (req, res, next) {
             switch (_a.label) {
                 case 0:
                     update = {
-                        email: newEmail,
+                        email: email
                     };
                     return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
                             .exec()
@@ -182,6 +181,60 @@ exports.editPassword = function (req, res, next) {
                 });
             }); });
             return [2 /*return*/];
+        });
+    }); });
+};
+exports.editAvatar = function (req, res, next) {
+    var id = req.params.id;
+    var avatar = req.body.avatar;
+    User.findOne({ _id: id })
+        .exec()
+        .then(function (user) { return __awaiter(void 0, void 0, void 0, function () {
+        var update;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    update = {
+                        avatar: avatar
+                    };
+                    return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
+                            .exec()
+                            .then(function (user) {
+                            return res.status(200).send(user);
+                        }, function (err) {
+                            return res.status(404).json({ message: err });
+                        })];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+};
+exports.addFavorite = function (req, res, next) {
+    var id = req.params.id;
+    var favorite = req.body.favorite;
+    User.findOne({ _id: id })
+        .exec()
+        .then(function (user) { return __awaiter(void 0, void 0, void 0, function () {
+        var update;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    update = {
+                        favorites: __spreadArray(__spreadArray([], user.favorites), [favorite]),
+                    };
+                    return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
+                            .exec()
+                            .then(function (user) {
+                            return res.status(200).send(user);
+                        }, function (err) {
+                            return res.status(404).json({ message: err });
+                        })];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
         });
     }); });
 };

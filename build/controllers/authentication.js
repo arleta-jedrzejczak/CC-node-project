@@ -42,6 +42,7 @@ exports.activateAccount = function (req, res, next) {
                         name: name,
                         email: email,
                         password: hash,
+                        avatar: '',
                         favourites: [],
                         posts: [],
                     });

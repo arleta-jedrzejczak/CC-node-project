@@ -81,14 +81,21 @@ router.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, f
         }
     });
 }); });
-router.get("/user/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.get("/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, err_2;
     return __generator(this, function (_a) {
-        User.findOne({ _id: req.params.id }).exec().then(function (user) {
-            res.status(200).json(user);
-        }).catch(function (err) {
-            res.status(404).json({ error: err });
-        });
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, User.findOne({ _id: req.params.id })];
+            case 1:
+                user = _a.sent();
+                return [2 /*return*/, res.status(200).json(user)];
+            case 2:
+                err_2 = _a.sent();
+                return [2 /*return*/, res.status(400).json({ message: err_2 })];
+            case 3: return [2 /*return*/];
+        }
     });
 }); });
 router.get("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -133,4 +140,6 @@ router.patch("/deletePost/:id", UserControler.deletePost);
 router.patch("/editName/:id", UserControler.editName);
 router.patch("/editEmail/:id", UserControler.editEmail);
 router.patch("/editPassword/:id", UserControler.editPassword);
+router.patch("/editAvatar/:id", UserControler.editAvatar);
+router.patch("/addFavorite/:id", UserControler.addFavorite);
 module.exports = router;
