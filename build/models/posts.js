@@ -10,7 +10,7 @@ var PostsSchema = new mongoose_1.default.Schema({
         required: true,
     },
     author: {
-        type: Number,
+        type: String,
         required: true,
     },
     title: {
