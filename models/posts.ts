@@ -9,7 +9,7 @@ interface Comments {
 
 export interface PostsI extends Document {
   _id: mongoose.Types.ObjectId;
-  author: number;
+  author: string;
   title: string;
   comments?: Comments[];
   tags: String[];
@@ -23,7 +23,7 @@ const PostsSchema = new mongoose.Schema({
     required: true,
   },
   author: {
-    type: Number,
+    type: String,
     required: true,
   },
   title: {
