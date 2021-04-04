@@ -55,6 +55,62 @@ router.delete("/:postId", async (req: Request, res: Response) => {
     return res.status(404).send("Invalid ID");
 });
 
+router.patch("/addComment/:id", async (req: Request, res: Response) => {
+   const id = req.params.id;
+   const {text, author} = req.body;
+ 
+   Post.findOne({ _id: id })
+     .exec()
+     .then(async (post) => {
+        let date=new Date()
+
+       const update = {
+         comments: [...post.comments, {
+            text: text,
+            author: author,
+            time: date
+         }]
+       };
+ 
+       await Post.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
+         .exec()
+         .then(
+           (post) => {
+             return res.status(200).send(post);
+           },
+           (err) => {
+             return res.status(404).json({ message: err });
+           }
+         );
+     });
+});
+
+router.patch("/deleteComment/:id", async (req: Request, res: Response) => {
+   const id = req.params.id;
+   const {text} = req.body;
+ 
+   Post.findOne({ _id: id })
+     .exec()
+     .then(async post => {
+        let comments=post.comments.filter(_post=>_post.text!==text)
+
+       const update = {
+         comments: comments
+       };
+ 
+       await Post.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
+         .exec()
+         .then(
+           (post) => {
+             return res.status(200).send(post);
+           },
+           (err) => {
+             return res.status(404).json({ message: err });
+           }
+         );
+     });
+});
+
 router.put("/edit/:id", async (req: Request, res: Response) => {
     const id = req.params.id;
     Post.findOne({_id: id}, function(err, foundPost){

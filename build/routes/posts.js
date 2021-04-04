@@ -35,6 +35,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -118,6 +123,74 @@ router.delete("/:postId", function (req, res) { return __awaiter(void 0, void 0,
             case 2: return [2 /*return*/, res.status(404).send("Invalid ID")];
             case 3: return [2 /*return*/];
         }
+    });
+}); });
+router.patch("/addComment/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, _a, text, author;
+    return __generator(this, function (_b) {
+        id = req.params.id;
+        _a = req.body, text = _a.text, author = _a.author;
+        Post.findOne({ _id: id })
+            .exec()
+            .then(function (post) { return __awaiter(void 0, void 0, void 0, function () {
+            var date, update;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        date = new Date();
+                        update = {
+                            comments: __spreadArray(__spreadArray([], post.comments), [{
+                                    text: text,
+                                    author: author,
+                                    time: date
+                                }])
+                        };
+                        return [4 /*yield*/, Post.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
+                                .exec()
+                                .then(function (post) {
+                                return res.status(200).send(post);
+                            }, function (err) {
+                                return res.status(404).json({ message: err });
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        return [2 /*return*/];
+    });
+}); });
+router.patch("/deleteComment/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, text;
+    return __generator(this, function (_a) {
+        id = req.params.id;
+        text = req.body.text;
+        Post.findOne({ _id: id })
+            .exec()
+            .then(function (post) { return __awaiter(void 0, void 0, void 0, function () {
+            var comments, update;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        comments = post.comments.filter(function (_post) { return _post.text !== text; });
+                        update = {
+                            comments: comments
+                        };
+                        return [4 /*yield*/, Post.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
+                                .exec()
+                                .then(function (post) {
+                                return res.status(200).send(post);
+                            }, function (err) {
+                                return res.status(404).json({ message: err });
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        return [2 /*return*/];
     });
 }); });
 router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
