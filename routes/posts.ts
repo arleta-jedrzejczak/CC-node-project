@@ -5,9 +5,9 @@ const Post = require("../models/posts");
 
 router.post("/", (req: Request, res: Response) => {
     Post.find({ image: req.body.image }).exec().then((posts) => {
-        if (posts.length > 0) {
-            return res.status(409).json({ message: "That image was already posted" });
-        } else {
+      //   if (posts.length > 0) {
+      //       return res.status(409).json({ message: "That image was already posted" });
+      //   } else {
             const post = new Post({
                 _id: new mongoose.Types.ObjectId(),
                 title: req.body.title,
@@ -23,7 +23,7 @@ router.post("/", (req: Request, res: Response) => {
             }).catch((err) => {
                 return res.status(500).json({ error: err });
             });
-        }
+      //   }
     });
 });
 
