@@ -42,6 +42,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var User = require("../models/user").User;
+var bcrypt = require('bcrypt');
 exports.addPost = function (req, res, next) {
     var id = req.params.id;
     var postId = req.body.id;
@@ -122,6 +123,65 @@ exports.editName = function (req, res, next) {
                     _a.sent();
                     return [2 /*return*/];
             }
+        });
+    }); });
+};
+exports.editEmail = function (req, res, next) {
+    var id = req.params.id;
+    var newEmail = req.body.newEmail;
+    User.findOne({ _id: id })
+        .exec()
+        .then(function (user) { return __awaiter(void 0, void 0, void 0, function () {
+        var update;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    update = {
+                        email: newEmail,
+                    };
+                    return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
+                            .exec()
+                            .then(function (user) {
+                            return res.status(200).send(user);
+                        }, function (err) {
+                            return res.status(404).json({ message: err });
+                        })];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+};
+exports.editPassword = function (req, res, next) {
+    var id = req.params.id;
+    var newPassword = req.body.newPassword;
+    User.findOne({ _id: id })
+        .exec()
+        .then(function (user) { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            bcrypt.hash(newPassword, 10, function (err, hash) { return __awaiter(void 0, void 0, void 0, function () {
+                var update;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            update = {
+                                password: hash,
+                            };
+                            return [4 /*yield*/, User.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
+                                    .exec()
+                                    .then(function (user) {
+                                    return res.status(200).send(user);
+                                }, function (err) {
+                                    return res.status(404).json({ message: err });
+                                })];
+                        case 1:
+                            _a.sent();
+                            return [2 /*return*/];
+                    }
+                });
+            }); });
+            return [2 /*return*/];
         });
     }); });
 };

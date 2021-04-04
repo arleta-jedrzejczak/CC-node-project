@@ -81,12 +81,12 @@ router.patch("/deletePost/:id", UserControler.deletePost);
 
 router.patch("/editName/:id", UserControler.editName);
 
+router.patch("/editEmail/:id", UserControler.editEmail);
+
+router.patch("/editPassword/:id", UserControler.editPassword);
+
 router.patch("/editAvatar/:id", UserControler.editAvatar);
 
 router.patch("/addFavorite/:id", UserControler.addFavorite);
-
-router.patch("/addPost/:id", UserControler.addPost);
-
-router.patch("/deletePost/:id", UserControler.addPost);
 
 module.exports = router;
