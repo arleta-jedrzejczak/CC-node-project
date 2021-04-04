@@ -4,7 +4,7 @@ const router = express.Router();
 const Post = require("../models/posts");
 
 router.post("/", (req: Request, res: Response) => {
-    Post.find({ image: req.body.image }).exec().then((posts) => {
+   //  Post.find({ image: req.body.image }).exec().then((posts) => {
       //   if (posts.length > 0) {
       //       return res.status(409).json({ message: "That image was already posted" });
       //   } else {
@@ -24,7 +24,7 @@ router.post("/", (req: Request, res: Response) => {
                 return res.status(500).json({ error: err });
             });
       //   }
-    });
+   //  });
 });
 
 router.get("/", async (req, res) => {
