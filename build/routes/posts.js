@@ -60,11 +60,14 @@ router.post("/", function (req, res) {
         image: req.body.image,
         author: req.body.author,
         likes: 0,
-        comments: []
+        comments: [],
     });
-    post.save().then(function (result) {
+    post
+        .save()
+        .then(function (result) {
         return res.status(201).json(post);
-    }).catch(function (err) {
+    })
+        .catch(function (err) {
         return res.status(500).json({ error: err });
     });
     //   }
@@ -139,11 +142,13 @@ router.patch("/addComment/:id", function (req, res) { return __awaiter(void 0, v
                     case 0:
                         date = new Date();
                         update = {
-                            comments: __spreadArray(__spreadArray([], post.comments), [{
+                            comments: __spreadArray(__spreadArray([], post.comments), [
+                                {
                                     text: text,
                                     author: author,
-                                    time: date
-                                }])
+                                    time: date,
+                                },
+                            ]),
                         };
                         return [4 /*yield*/, Post.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
                                 .exec()
@@ -175,7 +180,7 @@ router.patch("/deleteComment/:id", function (req, res) { return __awaiter(void 0
                     case 0:
                         comments = post.comments.filter(function (_post) { return _post.text !== text; });
                         update = {
-                            comments: comments
+                            comments: comments,
                         };
                         return [4 /*yield*/, Post.findOneAndUpdate({ _id: id }, update, { returnOriginal: true })
                                 .exec()
@@ -211,6 +216,9 @@ router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, v
                     }
                     if (req.body.tags) {
                         foundPost.tags = req.body.tags;
+                    }
+                    if (req.body.likes) {
+                        foundPost.likes = req.body.likes;
                     }
                     foundPost.save(function (err, updatedPost) {
                         if (err) {
