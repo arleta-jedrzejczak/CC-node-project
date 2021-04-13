@@ -117,23 +117,36 @@ router.get("/:id", function (req, res) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); });
-router.get("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var body, user;
     return __generator(this, function (_a) {
-        User.findOne({ email: req.body.email })
-            .exec()
-            .then(function (user) {
-            bcrypt.compare(req.body.password, user.password, function (err, result) {
-                if (err)
-                    return res.status(400).json({ message: err });
-                if (result)
-                    return res.status(200).json(user);
-                return res.status(401).json({ message: "Auth failed" });
-            });
-        })
-            .catch(function (err) {
-            return res.status(400).send(err);
-        });
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                body = req.body;
+                return [4 /*yield*/, User.findOne({ email: body.email })];
+            case 1:
+                user = _a.sent();
+                if (user) {
+                    User.findOne({ email: req.body.email })
+                        .exec()
+                        .then(function (user) {
+                        bcrypt.compare(req.body.password, user.password, function (err, result) {
+                            if (err)
+                                return res.status(400).json({ message: err });
+                            if (result)
+                                return res.status(200).json(user);
+                            return res.status(401).json({ message: "Auth failed" });
+                        });
+                    })
+                        .catch(function (err) {
+                        return res.status(400).send(err);
+                    });
+                }
+                else {
+                    res.status(401).json({ error: "User does not exist" });
+                }
+                return [2 /*return*/];
+        }
     });
 }); });
 router.patch("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {

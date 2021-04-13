@@ -64,19 +64,25 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/login", async (req: Request, res: Response) => {
-  User.findOne({ email: req.body.email })
-    .exec()
-    .then((user) => {
-      bcrypt.compare(req.body.password, user.password, (err, result) => {
-        if (err) return res.status(400).json({ message: err });
-        if (result) return res.status(200).json(user);
-        return res.status(401).json({ message: "Auth failed" });
+router.post("/login", async (req: Request, res: Response) => {
+  const body = req.body;
+  const user = await User.findOne({ email: body.email });
+  if (user) {
+    User.findOne({ email: req.body.email })
+      .exec()
+      .then((user) => {
+        bcrypt.compare(req.body.password, user.password, (err, result) => {
+          if (err) return res.status(400).json({ message: err });
+          if (result) return res.status(200).json(user);
+          return res.status(401).json({ message: "Auth failed" });
+        });
+      })
+      .catch((err) => {
+        return res.status(400).send(err);
       });
-    })
-    .catch((err) => {
-      return res.status(400).send(err);
-    });
+  } else {
+    res.status(401).json({ error: "User does not exist" });
+  }
 });
 
 router.patch("/edit/:id", async (req: Request, res: Response) => {
