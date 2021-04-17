@@ -1,4 +1,15 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from "mongoose";
+
+export interface UserInterface extends Document {
+  _id: string;
+  name: string;
+  email: string;
+  password: string;
+  avatar: string;
+  __v: number;
+  posts: [];
+  favorites: [];
+}
 
 const UserSchema = new mongoose.Schema({
   _id: {
@@ -18,7 +29,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  favourites: {
+  avatar:{
+   type: String
+  },
+  favorites: {
     type: Array,
     default: [],
   },
@@ -28,4 +42,6 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Users", UserSchema);
+const User = mongoose.model<UserInterface>("Users", UserSchema);
+
+module.exports = { User };

@@ -8,17 +8,24 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "tsc": "tsc",
-    "tsc:watch": "tsc -w"
+    "tsc:watch": "tsc -w",
+    "deploy": "npm run tsc && npm start"
   },
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "14.15.1"
+  },
   "dependencies": {
     "@types/express": "^4.17.11",
     "@types/mongoose": "^5.10.3",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mailgun-js": "^0.22.0",
     "mongoose": "^5.11.18",
     "nodemon": "^2.0.7"
   },
@@ -30,6 +37,7 @@
     "typescript": "^4.2.2"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testTimeout": 8000
   }
 }
